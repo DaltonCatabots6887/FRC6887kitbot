@@ -1,4 +1,4 @@
-
+/*
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkMax;
@@ -19,7 +19,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds; 
 
 public class DriveSubsystem extends SubsystemBase {
-  
+  /*
   // 1. Declare all 4 motors. 
   // IMPORTANT: Change these numbers (1, 2, 3, 4) to match your REV Hardware Client IDs.
   private final SparkMax leftLeader = new SparkMax(11, MotorType.kBrushed);
@@ -101,14 +101,14 @@ public class DriveSubsystem extends SubsystemBase {
     () -> false,
     this
 );
-*/
+*//*
   }
 
   /**
    * This is the method RobotContainer calls to move the robot.
    * @param speed Forward/Backward (usually -1.0 to 1.0)
    * @param rotation Left/Right turn (usually -1.0 to 1.0)
-   */
+   *//*
   public void arcadeDrive(double speed, double rotation) {
     m_drive.arcadeDrive(speed, rotation);
   }
@@ -147,5 +147,74 @@ public class DriveSubsystem extends SubsystemBase {
         )
         .withTimeout(seconds)
         .finallyDo(() -> this.arcadeDrive(0, 0)); // Stop the robot at the end
+}*/
+
+package frc.robot.subsystems;
+
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+
+public class DriveSubsystem extends SubsystemBase {
+  
+  // 1. Declare motors (kBrushed is correct for CIMs)
+  private final SparkMax leftLeader = new SparkMax(11, MotorType.kBrushless);
+  private final SparkMax leftFollower = new SparkMax(13, MotorType.kBrushless);
+  
+  private final SparkMax rightLeader = new SparkMax(12, MotorType.kBrushless);
+  private final SparkMax rightFollower = new SparkMax(14, MotorType.kBrushless);
+  
+  private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
+  private final DifferentialDrive m_drive = new DifferentialDrive(leftLeader, rightLeader);
+
+  public DriveSubsystem() {
+    SparkMaxConfig leftConfig = new SparkMaxConfig();
+    SparkMaxConfig rightConfig = new SparkMaxConfig();
+    
+    // --- RIGHT SIDE SETUP ---
+    rightLeader.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    rightConfig.follow(rightLeader); 
+    rightFollower.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    // --- LEFT SIDE SETUP ---
+    leftConfig.inverted(true); // Invert left side so forward is forward
+    leftLeader.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leftConfig.follow(leftLeader);
+    leftFollower.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  }
+
+  public double getHeading() {
+    return m_gyro.getAngle(); 
+  }
+
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
+  public void arcadeDrive(double speed, double rotation) {
+    m_drive.arcadeDrive(speed, rotation);
+  }
+
+  // Time + Gyro based Drive Straight for Autonomous
+  public Command driveStraight(double speed, double seconds) {
+    return Commands.runOnce(this::resetGyro) 
+        .andThen(
+            Commands.run(() -> {
+                double error = getHeading(); 
+                double kP = 0.03; // Correction strength
+                this.arcadeDrive(speed, -error * kP); 
+            }, this)
+        )
+        .withTimeout(seconds)
+        .finallyDo(() -> this.arcadeDrive(0, 0)); // Safety stop
+  }
 }
-}
+

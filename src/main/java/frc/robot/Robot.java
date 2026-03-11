@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.FuelConstants.ELEVATOR;
+//import static frc.robot.Constants.FuelConstants.ELEVATOR;
 
 import com.ctre.phoenix6.HootAutoReplay;
 
