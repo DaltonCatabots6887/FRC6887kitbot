@@ -313,6 +313,7 @@ public class RobotContainer {
         autoChooser.addOption("Left Side Auto", LeftAuto());
         autoChooser.addOption("Right Side Auto", RightAuto());
         autoChooser.setDefaultOption("Middle Auto", MiddleAuto());
+        autoChooser.addOption("MOB A", MOBA.auto);
 
         // Put chooser on dashboard
         SmartDashboard.putData("Auto Chooser", autoChooser);

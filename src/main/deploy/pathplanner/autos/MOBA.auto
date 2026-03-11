@@ -19,31 +19,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LM S1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Raise Arm"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
+            "pathName": "Middle Over Bump S1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LM F"
+            "pathName": "Middle Over Bump S2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Over Bump F"
           }
         }
       ]

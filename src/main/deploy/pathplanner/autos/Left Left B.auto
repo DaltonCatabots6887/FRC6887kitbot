@@ -56,6 +56,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "LB Autos",
+  "folder": null,
   "choreoAuto": false
 }

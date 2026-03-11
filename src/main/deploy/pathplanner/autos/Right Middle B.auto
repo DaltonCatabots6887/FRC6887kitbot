@@ -68,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RB Auto",
+  "folder": null,
   "choreoAuto": false
 }

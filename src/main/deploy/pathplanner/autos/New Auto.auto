@@ -62,6 +62,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "MR Autos",
+  "folder": null,
   "choreoAuto": false
 }
