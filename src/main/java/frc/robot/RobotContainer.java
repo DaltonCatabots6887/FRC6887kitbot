@@ -295,6 +295,11 @@ import frc.robot.commands.*;
 import static frc.robot.Constants.OperatorConstants.*;
 import static frc.robot.Constants.FuelConstants.*;
 
+// PathPlanner
+//import com.pathplanner.lib.auto.AutoBuilder2;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 public class RobotContainer {
     
     // Subsystems
@@ -309,12 +314,31 @@ public class RobotContainer {
     private final CommandXboxController operatorController = new CommandXboxController(OPERATOR_CONTROLLER_PORT);
 
     public RobotContainer() {
+        // 1. REGISTER COMMANDS FIRST
+        // The String (e.g., "AutoShoot") MUST match what you type in the PathPlanner App exactly.
+        NamedCommands.registerCommand("AutoShoot", 
+            new SpinUp(m_fuel).withTimeout(SPIN_UP_SECONDS)
+                .andThen(new Launch(m_fuel).withTimeout(2.0))
+        );
+
+        NamedCommands.registerCommand("Intake", new Eject(m_fuel));
+    
+        NamedCommands.registerCommand("ElevatorUp", new Elevator_Back(m_fuel).withTimeout(1.5));
+    
+        NamedCommands.registerCommand("ElevatorDown", new Elevator(m_fuel).withTimeout(1.5));
+        
         // Setup Auto Chooser
         autoChooser.addOption("Left Side Auto", LeftAuto());
         autoChooser.addOption("Right Side Auto", RightAuto());
         autoChooser.setDefaultOption("Middle Auto", MiddleAuto());
-        autoChooser.addOption("MOB A", MOBA.auto);
-
+        //autoChooser.addOption("MOBA", MOBA.auto());
+        autoChooser.addOption("MOBA", new PathPlannerAuto("MOBA"));
+        autoChooser.addOption("MM Auto", new PathPlannerAuto("MM Auto"));
+        autoChooser.addOption("Curve Test", new PathPlannerAuto("C Test"));
+        autoChooser.addOption("Straight Test", new PathPlannerAuto("S Test"));
+        autoChooser.addOption("Right Right B", new PathPlannerAuto("Right Right B"));
+        autoChooser.addOption("Test", new PathPlannerAuto("Test"));
+        
         // Put chooser on dashboard
         SmartDashboard.putData("Auto Chooser", autoChooser);
 

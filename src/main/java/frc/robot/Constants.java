@@ -21,6 +21,7 @@ public final class Constants {
     // Motor controller IDs for Fuel Mechanism motors
     public static final int FEEDER_MOTOR_ID = 4;
     public static final int INTAKE_LAUNCHER_MOTOR_ID = 2;
+    
     //public static final int ELEVATOR = 5;
 
     // Current limit and nominal voltage for fuel mechanism motors.
@@ -48,7 +49,7 @@ public final class Constants {
 
     // This value is multiplied by the joystick value when rotating the robot to
     // help avoid turning too fast and beign difficult to control
-    public static final double DRIVE_SCALING = -.5;
-    public static final double ROTATION_SCALING = -.5; //was .55
+    public static final double DRIVE_SCALING = -.6;
+    public static final double ROTATION_SCALING = -.6; //was .55
   }
 }
