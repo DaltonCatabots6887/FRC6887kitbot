@@ -36,9 +36,9 @@ public final class Constants {
     public static final double INTAKING_FEEDER_VOLTAGE = -7; //-12 <----Intake Axle(w/ agitators)
     public static final double INTAKING_INTAKE_VOLTAGE = 7; //10 <----Shooter Axle
     public static final double LAUNCHING_FEEDER_VOLTAGE = 8; //9 <----Intake Axle(w/ agitators)
-    public static final double LAUNCHING_LAUNCHER_VOLTAGE = 8.5; //10.6 <----Shooter Axle
+    public static final double LAUNCHING_LAUNCHER_VOLTAGE = 6.75; //10.6 <----Shooter Axle
     public static final double SPIN_UP_FEEDER_VOLTAGE = 6; //6  
-    public static final double SPIN_UP_SECONDS = 1.25; //1
+    public static final double SPIN_UP_SECONDS = 2; //1
   }
 
   public static final class OperatorConstants {
@@ -51,5 +51,7 @@ public final class Constants {
     // help avoid turning too fast and beign difficult to control
     public static final double DRIVE_SCALING = -.6;
     public static final double ROTATION_SCALING = -.6; //was .55
+
+    //<3Hello! Loveyall:)Peace out!!
   }
 }

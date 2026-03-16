@@ -15,6 +15,9 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.FuelConstants.*;
+import static frc.robot.Constants.OperatorConstants.DRIVE_SCALING;
+import static frc.robot.Constants.OperatorConstants.ROTATION_SCALING;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.spark.SparkMax;
@@ -31,10 +34,11 @@ public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax intakeLauncherRoller;
   //private final SparkMax elevatorRoller;
 
+  
   private final SparkMax m_elevatorMotor = new SparkMax(5, MotorType.kBrushless);
   private final RelativeEncoder m_elevatorEncoder = m_elevatorMotor.getEncoder();
   private final SparkClosedLoopController m_elevatorPID = m_elevatorMotor.getClosedLoopController();
-
+  
   
 
   //Past Switch code- Jose
@@ -55,9 +59,11 @@ public class CANFuelSubsystem extends SubsystemBase {
   public CANFuelSubsystem() {
 
 
+    //intakeLauncherRoller = new SparkMax(INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     intakeLauncherRoller = new SparkMax(INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     feederRoller = new SparkMax(FEEDER_MOTOR_ID, MotorType.kBrushless);
     
+
     // Use the ID from Constants (3) for the elevator
     //elevatorRoller = new SparkMax(6, MotorType.kBrushless);
 
@@ -89,7 +95,12 @@ public class CANFuelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
     SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
     SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
+    SmartDashboard.putNumber("Spin-up launch time", SPIN_UP_SECONDS);
     SmartDashboard.putNumber("Elevator Roller roller value", ELEVATOR_VOLTAGE);
+    SmartDashboard.putNumber("Speed", DRIVE_SCALING);
+    SmartDashboard.putNumber("Rotation Speed", ROTATION_SCALING);
+
+
 
     /*
     // create brushed motors for each of the motors on the launcher mechanism
@@ -143,6 +154,13 @@ public class CANFuelSubsystem extends SubsystemBase {
 
         */
   }
+
+
+      public double getLauncherVelocity() {
+      RelativeEncoder m_LaunchEncoder = feederRoller.getEncoder();
+    // Replace 'm_launcherEncoder' with whatever you named your encoder object
+    return m_LaunchEncoder.getVelocity(); 
+}
 
   public double getElevatorPosition() {
     return m_elevatorMotor.getEncoder().getPosition();

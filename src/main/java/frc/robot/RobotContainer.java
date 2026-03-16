@@ -284,6 +284,7 @@ operatorController.rightBumper().onTrue(
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -348,15 +349,18 @@ public class RobotContainer {
 
     private void configureBindings() {
         // DRIVER: Arcade Drive
+        
         m_drive.setDefaultCommand(
-            Commands.run(
-                () -> m_drive.arcadeDrive(
-                    -driverController.getLeftY() * DRIVE_SCALING, 
-                    -driverController.getLeftX() * ROTATION_SCALING
-                ),
-                m_drive
-            )
-        );
+        Commands.run(
+            () -> m_drive.arcadeDrive(
+                // Apply a 10% deadband to the Forward/Back axis
+                -MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * DRIVE_SCALING, 
+                // Apply a 10% deadband to the Rotation axis
+                -MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * ROTATION_SCALING
+            ),
+            m_drive
+        )
+    );
 
         // OPERATOR: Intake, Launch, and Eject
         operatorController.leftTrigger().whileTrue(new Eject(m_fuel));
@@ -398,6 +402,7 @@ operatorController.rightBumper().onTrue(
 
     public Command MiddleAuto() {
         return Commands.sequence(
+            m_drive.driveStraight(0.5,1),
             Commands.print("Auton: Starting Shoot..."),
             new SpinUp(m_fuel).withTimeout(1.0),
             new Launch(m_fuel).withTimeout(5),
