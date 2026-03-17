@@ -19,7 +19,7 @@ public class Launch extends Command {
   public void initialize() {
     // We start the launcher wheels immediately so they begin spinning up
     double launcherVolt = SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
-    fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
+    fuelSubsystem.setFeederRoller(launcherVolt);
   }
 
   @Override
@@ -30,18 +30,18 @@ public class Launch extends Command {
     double feederVolt = SmartDashboard.getNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
 
     // 2. Logic: Only run feeder if launcher is fast enough
-    if (currentVelocity >= 2900) {
+    if (currentVelocity >= velLimit) {
       // Launcher stays at high speed, Feeder turns ON
-      fuelSubsystem.setIntakeLauncherRoller(feederVolt);
-      fuelSubsystem.setFeederRoller(launcherVolt);
+      fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
+      fuelSubsystem.setFeederRoller(feederVolt);
     } else {
       // Launcher stays at high speed to keep revving, Feeder stays OFF
-      fuelSubsystem.setIntakeLauncherRoller(0);
-      fuelSubsystem.setFeederRoller(launcherVolt);
+      fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
+      fuelSubsystem.setFeederRoller(0);
     }
     
     // Update the dashboard so Jose can see the status live
-    SmartDashboard.putBoolean("Shooter Ready", currentVelocity >= 2900);
+    SmartDashboard.putBoolean("Shooter Ready", currentVelocity >= velLimit);
     SmartDashboard.putNumber("Current Launcher RPM", currentVelocity);
   }
 

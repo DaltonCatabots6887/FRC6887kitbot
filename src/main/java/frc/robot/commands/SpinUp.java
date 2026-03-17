@@ -24,17 +24,12 @@ public class SpinUp extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
-   /* fuelSubsystem
-        .setIntakeLauncherRoller(
-            SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", SPIN_UP_FEEDER_VOLTAGE));
-  */
     // Start the launcher wheels only
-    double launcherVolt = SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_FEEDER_VOLTAGE);
-    fuelSubsystem.setFeederRoller(launcherVolt);
+    double launcherVolt = SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
+    fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
     
     // Explicitly stop feeder so ball doesn't move
-    fuelSubsystem.setIntakeLauncherRoller(0);    
+    fuelSubsystem.setFeederRoller(0);    
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
