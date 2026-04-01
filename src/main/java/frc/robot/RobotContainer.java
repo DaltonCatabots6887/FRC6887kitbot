@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -40,9 +41,9 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Intake", new In(m_fuel));
     
-        NamedCommands.registerCommand("ElevatorUp", new Elevator_Back(m_fuel).withTimeout(1.5));
+        //NamedCommands.registerCommand("ElevatorUp", new Elevator_Back(m_fuel).withTimeout(1.5));
     
-        NamedCommands.registerCommand("ElevatorDown", new Elevator(m_fuel).withTimeout(1.5));
+        //NamedCommands.registerCommand("ElevatorDown", new Elevator(m_fuel).withTimeout(1.5));
         
         // Setup Auto Chooser
         autoChooser.addOption("Left Side Auto", LeftAuto());
@@ -69,9 +70,9 @@ public class RobotContainer {
         Commands.run(
             () -> m_drive.arcadeDrive(
                 // Apply a 10% deadband to the Forward/Back axis
-                -MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * DRIVE_SCALING, 
+                -MathUtil.applyDeadband(driverController.getLeftY(), 0.03) * DRIVE_SCALING, 
                 // Apply a 10% deadband to the Rotation axis
-                -MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * ROTATION_SCALING
+                -MathUtil.applyDeadband(driverController.getLeftX(), 0.03) * ROTATION_SCALING
             ),
             m_drive
         )
@@ -88,14 +89,17 @@ public class RobotContainer {
         );
 
         operatorController.a().whileTrue(new Out(m_fuel));
+        operatorController.b().whileTrue(new OutIn(m_fuel));
 
         // ELEVATOR CONTROLS
-        operatorController.povDown().whileTrue(new Elevator(m_fuel));
-        operatorController.povUp().whileTrue(new Elevator_Back(m_fuel));
-        operatorController.povRight().onTrue(Commands.runOnce(()-> FuelConstants.velLimit += 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .8)));
-        operatorController.povLeft().onTrue(Commands.runOnce(()-> FuelConstants.velLimit -= 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE -= .8)));
+        
+        //operatorController.povDown().whileTrue(new Elevator(m_fuel));
+        //operatorController.povUp().whileTrue(new Elevator_Back(m_fuel));
+        //operatorController.povUp().onTrue(Commands.runOnce(()-> FuelConstants.velLimit += 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .8)));
+        //operatorController.povDown().onTrue(Commands.runOnce(()-> FuelConstants.velLimit -= 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE -= .8)));
         operatorController.y().onTrue(Commands.runOnce(()-> FuelConstants.velLimit = 3000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 7.6)));;
-
+        operatorController.povUp().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .4));
+        operatorController.povDown().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += -.4));
 
         /* 
         double BOTTOM_ROTATIONS = 0.0;
@@ -122,16 +126,18 @@ operatorController.rightBumper().onTrue(
 
     public Command MiddleAuto() {
         return Commands.sequence(
-            m_drive.driveStraight(0.5,1),
+            m_drive.driveStraight(-0.3,2),
             Commands.print("Auton: Starting Shoot..."),
             new SpinUp(m_fuel).withTimeout(1.0),
             new Launch(m_fuel).withTimeout(5),
-            m_drive.driveStraight(0.5,0.5),
-            m_drive.driveStraight(-0.5,0.5),
+            m_drive.driveStraight(-0.6,0.4),
+            m_drive.driveStraight(0.0,0.2),
+            m_drive.driveStraight(0.6,0.4),
             new SpinUp(m_fuel).withTimeout(1.0),
             new Launch(m_fuel).withTimeout(5),
-            m_drive.driveStraight(0.5,0.5),
-            m_drive.driveStraight(-0.5,0.5),
+            m_drive.driveStraight(-0.6,0.4),
+            m_drive.driveStraight(0.0,0.2),
+            m_drive.driveStraight(0.6,0.4),
             new SpinUp(m_fuel).withTimeout(1.0),
             new Launch(m_fuel).withTimeout(5),
             Commands.runOnce(m_fuel::stop, m_fuel)
@@ -158,9 +164,9 @@ operatorController.rightBumper().onTrue(
                     .until(() -> Math.abs(m_drive.getHeading()) >= 178) 
                     .withTimeout(2.0), // Failsafe timeout
             
-            new Elevator(m_fuel).withTimeout(1.0),
-            m_drive.driveStraight(0.5, 3.0),
-            new Elevator_Back(m_fuel).withTimeout(1.0)
+            //new Elevator(m_fuel).withTimeout(1.0),
+            m_drive.driveStraight(0.5, 3.0)
+            //new Elevator_Back(m_fuel).withTimeout(1.0)
         );
     }
 
@@ -174,9 +180,9 @@ operatorController.rightBumper().onTrue(
                     .until(() -> Math.abs(m_drive.getHeading()) >= 178)
                     .withTimeout(2.0), // Failsafe timeout
             
-            new Elevator(m_fuel).withTimeout(1.0),
-            m_drive.driveStraight(0.5, 3.0),
-            new Elevator_Back(m_fuel).withTimeout(1.0)
+            //new Elevator(m_fuel).withTimeout(1.0),
+            m_drive.driveStraight(0.5, 3.0)
+            //new Elevator_Back(m_fuel).withTimeout(1.0)
         );
     }
 }

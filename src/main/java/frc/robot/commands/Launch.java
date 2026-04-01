@@ -28,15 +28,16 @@ public class Launch extends Command {
     double currentVelocity = Math.abs(fuelSubsystem.getLauncherVelocity());
     double launcherVolt = SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
     double feederVolt = SmartDashboard.getNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
+    double rollerVolt = SmartDashboard.getNumber("Launching feeder roller value", LAUNCHING_ROLLERS_VOLTAGE);
 
     // 2. Logic: Only run feeder if launcher is fast enough
     if (currentVelocity >= velLimit) {
       // Launcher stays at high speed, Feeder turns ON
-      fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
+      fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
       fuelSubsystem.setFeederRoller(feederVolt);
     } else {
       // Launcher stays at high speed to keep revving, Feeder stays OFF
-      fuelSubsystem.setIntakeLauncherRoller(launcherVolt);
+      fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
       fuelSubsystem.setFeederRoller(0);
     }
     

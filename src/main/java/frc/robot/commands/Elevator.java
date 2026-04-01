@@ -3,7 +3,7 @@
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
 import static frc.robot.Constants.FuelConstants.*;
-
+/*
 public class Elevator extends Command {
     private final CANFuelSubsystem fuelSubsystem;
     // Adjust this number based on your testing tomorrow!
@@ -26,7 +26,7 @@ public class Elevator extends Command {
         } else {
             fuelSubsystem.setelevatorRoller(-1 * ELEVATOR_VOLTAGE); 
         }
-        */
+        *//*
     }
     @Override
     public void end(boolean interrupted) {
@@ -37,7 +37,8 @@ public class Elevator extends Command {
     public boolean isFinished() {
       /* UNCOMMENT THIS TO MAKE THE BUTTON STOP AUTOMATICALLY AT THE TOP:
         return fuelSubsystem.getElevatorPosition() >= TOP_THRESHOLD;
-        */  
+        *//*  
       return false;
     }
 }
+*/

@@ -38,9 +38,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        UsbCamera camera = CameraServer.startAutomaticCapture();
+        /*UsbCamera camera = CameraServer.startAutomaticCapture();
         camera.setResolution(640,400);
-        camera.setFPS(15);
+        camera.setFPS(15);*/
     }
 
     @Override

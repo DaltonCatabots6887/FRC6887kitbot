@@ -28,12 +28,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax feederRoller;
   private final SparkMax intakeLauncherRoller;
+  private final SparkMax rollersRollers;
+  //private final SparkMax rollersRoller;
   //private final SparkMax elevatorRoller;
 
   
-  private final SparkMax m_elevatorMotor = new SparkMax(5, MotorType.kBrushless);
-  private final RelativeEncoder m_elevatorEncoder = m_elevatorMotor.getEncoder();
-  private final SparkClosedLoopController m_elevatorPID = m_elevatorMotor.getClosedLoopController();
+  //private final SparkMax m_RollersMotor = new SparkMax(5, MotorType.kBrushless);
+  //private final RelativeEncoder m_elevatorEncoder = m_elevatorMotor.getEncoder();
+ // private final SparkClosedLoopController m_elevatorPID = m_elevatorMotor.getClosedLoopController();
   
   
 
@@ -58,18 +60,19 @@ public class CANFuelSubsystem extends SubsystemBase {
     //intakeLauncherRoller = new SparkMax(INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     intakeLauncherRoller = new SparkMax(INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     feederRoller = new SparkMax(FEEDER_MOTOR_ID, MotorType.kBrushless);
+    rollersRollers = new SparkMax(ROLLERS_MOTOR_ID, MotorType.kBrushless);
     
 
     // Use the ID from Constants (3) for the elevator
     //elevatorRoller = new SparkMax(6, MotorType.kBrushless);
 
     // Setup Config
-    SparkMaxConfig elevatorConfig = new SparkMaxConfig();
-    elevatorConfig.smartCurrentLimit(ELEVATOR_LIMIT);
-    elevatorConfig.closedLoop.p(0.1); // Jose's PID tuning
+    //SparkMaxConfig elevatorConfig = new SparkMaxConfig();
+    //elevatorConfig.smartCurrentLimit(ELEVATOR_LIMIT);
+    //elevatorConfig.closedLoop.p(0.1); // Jose's PID tuning
     
     // Apply config to the elevator
-    m_elevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //m_elevatorMotor.configure(elevatorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // Feeder Config
     SparkMaxConfig feederConfig = new SparkMaxConfig();
@@ -82,14 +85,22 @@ public class CANFuelSubsystem extends SubsystemBase {
     launcherConfig.smartCurrentLimit(LAUNCHER_MOTOR_CURRENT_LIMIT);
     intakeLauncherRoller.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
+    //Rollers Config
+    SparkMaxConfig rollersConfig = new SparkMaxConfig();
+     launcherConfig.smartCurrentLimit(ROLLERS_MOTOR_CURRENT_LIMIT);
+    rollersRollers.configure(rollersConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+
     // Zero the elevator (Make sure it's at the bottom on boot!)
-    m_elevatorMotor.getEncoder().setPosition(0);
+    //m_elevatorMotor.getEncoder().setPosition(0);
 
     // Dashboard tuning values
     SmartDashboard.putNumber("Intaking feeder roller value", INTAKING_FEEDER_VOLTAGE);
     SmartDashboard.putNumber("Intaking intake roller value", INTAKING_INTAKE_VOLTAGE);
+    SmartDashboard.putNumber("Intaking rollers roller value", INTAKING_ROLLERS_VOLTAGE);
     SmartDashboard.putNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
     SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
+    SmartDashboard.putNumber("Launching rollers roller value", INTAKING_ROLLERS_VOLTAGE);
     SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
     SmartDashboard.putNumber("Spin-up launch time", SPIN_UP_SECONDS);
     SmartDashboard.putNumber("Elevator Roller roller value", ELEVATOR_VOLTAGE);
@@ -158,9 +169,9 @@ public class CANFuelSubsystem extends SubsystemBase {
     return m_LaunchEncoder.getVelocity(); 
 }
 
-  public double getElevatorPosition() {
-    return m_elevatorMotor.getEncoder().getPosition();
-  }
+  //public double getElevatorPosition() {
+    //return m_elevatorMotor.getEncoder().getPosition();
+  //}
 
   // A method to set the voltage of the intake roller
   public void setIntakeLauncherRoller(double voltage) {
@@ -172,24 +183,30 @@ public class CANFuelSubsystem extends SubsystemBase {
     feederRoller.setVoltage(voltage);
   }
 
-  public void setelevatorRoller(double voltage) {
-    m_elevatorMotor.setVoltage(voltage);
+  public void setRollerRollers(double voltage) {
+    rollersRollers.setVoltage(voltage);
   }
+
+  //public void setelevatorRoller(double voltage) {
+   // m_elevatorMotor.setVoltage(voltage);
+  //}
 
   // A method to stop the rollers
   public void stop() {
     intakeLauncherRoller.set(0);
-    feederRoller.set(0);   
-    m_elevatorMotor.set(0);
+    feederRoller.set(0);
+    rollersRollers.set(0); 
+      
+    //m_elevatorMotor.set(0);
   }
   // Added for Rel. Elevator - Jose
-  public void setElevatorPosition(double rotations) {
-        m_elevatorPID.setReference(rotations, ControlType.kPosition);
-    }
+  //public void setElevatorPosition(double rotations) {
+        //m_elevatorPID.setReference(rotations, ControlType.kPosition);
+    //}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Elevator Pos", m_elevatorEncoder.getPosition()); //On smartdash to record top POS tmw - Jose
+    //SmartDashboard.putNumber("Elevator Pos", m_elevatorEncoder.getPosition()); //On smartdash to record top POS tmw - Jose
   }
 }

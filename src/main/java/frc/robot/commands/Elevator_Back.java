@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
 import static frc.robot.Constants.FuelConstants.*;
-
+/*
 public class Elevator_Back extends Command {
     private final CANFuelSubsystem fuelSubsystem;
     // We stop at 1.0 instead of 0.0 so we don't slam the bottom
@@ -30,7 +30,7 @@ public class Elevator_Back extends Command {
             fuelSubsystem.setelevatorRoller(1 * BOTTOM_THRESHOLD); 
         }
     }
-      */
+      *//*
     }
 
     public void initialize() {
@@ -48,10 +48,10 @@ public class Elevator_Back extends Command {
     public boolean isFinished() {
       /* UNCOMMENT THIS TO STOP AUTOMATICALLY AT THE BOTTOM:
         return fuelSubsystem.getElevatorPosition() <= BOTTOM_THRESHOLD;
-        */  
+          
       return false;
     }
   }
-
+*/
 
 
