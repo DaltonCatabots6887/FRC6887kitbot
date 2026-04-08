@@ -26,24 +26,24 @@ public final class Constants {
     //public static final int ELEVATOR = 5;
 
     // Current limit and nominal voltage for fuel mechanism motors.
-    public static final int FEEDER_MOTOR_CURRENT_LIMIT = 30;
-    public static final int LAUNCHER_MOTOR_CURRENT_LIMIT = 30;
+    public static final int FEEDER_MOTOR_CURRENT_LIMIT = 40;
+    public static int LAUNCHER_MOTOR_CURRENT_LIMIT = 40;
     public static final int ELEVATOR_LIMIT = 50;
-    public static final int ROLLERS_MOTOR_CURRENT_LIMIT = 30;
-    public static double velLimit = 3000.0;
+    public static final int ROLLERS_MOTOR_CURRENT_LIMIT = 40;
+    public static double velLimit = 3000;
 
     // Voltage values for various fuel operations. These values may need to be tuned
     // based on exact robot construction.             FEEDER ----> INDEX        LAUNCHER&INTAKE----->SHOOTER AXLE 
     // See the Software Guide for tuning information  
     public static final double ELEVATOR_VOLTAGE = 11;
     public static final double INTAKING_FEEDER_VOLTAGE = 12; //prev 12 <----Intake Axle(w/ agitators) //Make more powerful
-    public static final double INTAKING_INTAKE_VOLTAGE = -7; //prev -6.5 <----Shooter Axle //Less than one above
-    public static final double INTAKING_ROLLERS_VOLTAGE = 7;
+    public static final double INTAKING_INTAKE_VOLTAGE = -9; //prev -6.5 <----Shooter Axle //Less than one above
+    public static final double INTAKING_ROLLERS_VOLTAGE = 9; //black wheel intake axle (prev 7)       <-------------
     public static final double LAUNCHING_FEEDER_VOLTAGE = 8; //9 <----Intake Axle(w/ agitators)
     public static double LAUNCHING_LAUNCHER_VOLTAGE = 6.8; //10.6 <----Shooter Axle
     public static final double LAUNCHING_ROLLERS_VOLTAGE = 5;
     public static final double SPIN_UP_FEEDER_VOLTAGE = 6; //6  
-    public static final double SPIN_UP_SECONDS = 2; //1
+    public static final double SPIN_UP_SECONDS = 0; //1
   }
 
   public static final class OperatorConstants {
@@ -54,8 +54,8 @@ public final class Constants {
 
     // This value is multiplied by the joystick value when rotating the robot to
     // help avoid turning too fast and beign difficult to control
-    public static final double DRIVE_SCALING = -.4;
-    public static final double ROTATION_SCALING = -.4; //WAS .75 FOR DAVID
+    public static final double DRIVE_SCALING = -.62;
+    public static final double ROTATION_SCALING = -.62; //WAS .75 FOR DAVID
 
     //<3Hello! Loveyall:)Peace out!!
   }

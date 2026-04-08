@@ -99,13 +99,14 @@ public class CANFuelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Intaking intake roller value", INTAKING_INTAKE_VOLTAGE);
     SmartDashboard.putNumber("Intaking rollers roller value", INTAKING_ROLLERS_VOLTAGE);
     SmartDashboard.putNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
-    SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
+    
     SmartDashboard.putNumber("Launching rollers roller value", INTAKING_ROLLERS_VOLTAGE);
     SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
     SmartDashboard.putNumber("Spin-up launch time", SPIN_UP_SECONDS);
     SmartDashboard.putNumber("Elevator Roller roller value", ELEVATOR_VOLTAGE);
     SmartDashboard.putNumber("Speed", DRIVE_SCALING);
     SmartDashboard.putNumber("Rotation Speed", ROTATION_SCALING);
+    SmartDashboard.putNumber("Amps",  LAUNCHER_MOTOR_CURRENT_LIMIT);
 
 
 
@@ -208,5 +209,10 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //SmartDashboard.putNumber("Elevator Pos", m_elevatorEncoder.getPosition()); //On smartdash to record top POS tmw - Jose
+    SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_VOLTAGE);
+        SmartDashboard.putNumber("Velo", getLauncherVelocity());
+            SmartDashboard.putNumber("Amps",  LAUNCHER_MOTOR_CURRENT_LIMIT);
+  
+
   }
 }

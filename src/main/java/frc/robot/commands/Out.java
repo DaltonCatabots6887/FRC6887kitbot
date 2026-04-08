@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.FuelConstants.INTAKING_ROLLERS_VOLTAGE;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -24,9 +26,11 @@ public class Out extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
-    fuelSubsystem.setIntakeLauncherRoller(SmartDashboard.getNumber("Intaking intake roller value", 9));
+    //fuelSubsystem.setIntakeLauncherRoller(SmartDashboard.getNumber("Intaking intake roller value", 9));
     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking feeder roller value", -9));
-    fuelSubsystem.setRollerRollers(SmartDashboard.getNumber("Intaking intake roller value", 0));
+    //fuelSubsystem.setRollerRollers(SmartDashboard.getNumber("Intaking intake roller value", 9));
+    fuelSubsystem.setRollerRollers(-1 * SmartDashboard.getNumber("Intaking intake roller value", 9));
+
   }
 
   // Called every time the scheduler runs while the command is scheduled. This

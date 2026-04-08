@@ -80,6 +80,9 @@ public class RobotContainer {
 
         // OPERATOR: Intake, Launch, and Eject
         operatorController.leftTrigger().whileTrue(new In(m_fuel));
+        operatorController.leftBumper().whileTrue(new greenIn(m_fuel));
+        operatorController.rightBumper().whileTrue(new greenOut(m_fuel));
+
 
         operatorController.rightTrigger().whileTrue(
             new SpinUp(m_fuel).withTimeout(SPIN_UP_SECONDS)
@@ -89,7 +92,13 @@ public class RobotContainer {
         );
 
         operatorController.a().whileTrue(new Out(m_fuel));
-        operatorController.b().whileTrue(new OutIn(m_fuel));
+        operatorController.x().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 7.2).alongWith(Commands.runOnce(()-> FuelConstants.velLimit = 3200)));
+        operatorController.y().onTrue(Commands.runOnce(()-> FuelConstants.velLimit = 3000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 6.8)));;
+        operatorController.b().whileTrue(Commands.runOnce(()-> FuelConstants.LAUNCHER_MOTOR_CURRENT_LIMIT = 80));
+        operatorController.b().whileFalse(Commands.runOnce(()-> FuelConstants.LAUNCHER_MOTOR_CURRENT_LIMIT = 40));
+        //operatorController.b().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHER_MOTOR_CURRENT_LIMIT = 80).andThen(Commands.waitSeconds(5)).andThen(Commands.runOnce(()-> FuelConstants.LAUNCHER_MOTOR_CURRENT_LIMIT = 40)));
+
+        //operatorController.b().whileTrue(new OutIn(m_fuel));
 
         // ELEVATOR CONTROLS
         
@@ -97,9 +106,10 @@ public class RobotContainer {
         //operatorController.povUp().whileTrue(new Elevator_Back(m_fuel));
         //operatorController.povUp().onTrue(Commands.runOnce(()-> FuelConstants.velLimit += 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .8)));
         //operatorController.povDown().onTrue(Commands.runOnce(()-> FuelConstants.velLimit -= 1000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE -= .8)));
-        operatorController.y().onTrue(Commands.runOnce(()-> FuelConstants.velLimit = 3000).alongWith(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 7.6)));;
-        operatorController.povUp().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .4));
-        operatorController.povDown().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += -.4));
+        operatorController.povUp().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += .2));
+        operatorController.povDown().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE += -.2));
+        operatorController.povRight().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 8.2).alongWith(Commands.runOnce(()-> FuelConstants.velLimit = 3800)));
+        operatorController.povLeft().onTrue(Commands.runOnce(()-> FuelConstants.LAUNCHING_LAUNCHER_VOLTAGE = 5.8).alongWith(Commands.runOnce(()-> FuelConstants.velLimit = 2500)));
 
         /* 
         double BOTTOM_ROTATIONS = 0.0;
@@ -128,19 +138,21 @@ operatorController.rightBumper().onTrue(
         return Commands.sequence(
             m_drive.driveStraight(-0.3,2),
             Commands.print("Auton: Starting Shoot..."),
-            new SpinUp(m_fuel).withTimeout(1.0),
+            new SpinUp(m_fuel).withTimeout(2),
             new Launch(m_fuel).withTimeout(5),
-            m_drive.driveStraight(-0.6,0.4),
-            m_drive.driveStraight(0.0,0.2),
-            m_drive.driveStraight(0.6,0.4),
-            new SpinUp(m_fuel).withTimeout(1.0),
+            m_drive.driveStraight(-0.5,.5),
+            m_drive.driveStraight(0.5,.5),
+            new SpinUp(m_fuel).withTimeout(2),
             new Launch(m_fuel).withTimeout(5),
-            m_drive.driveStraight(-0.6,0.4),
-            m_drive.driveStraight(0.0,0.2),
-            m_drive.driveStraight(0.6,0.4),
-            new SpinUp(m_fuel).withTimeout(1.0),
+             m_drive.driveStraight(-0.5,.5),
+            m_drive.driveStraight(0.5,.5),
+            new SpinUp(m_fuel).withTimeout(2),
             new Launch(m_fuel).withTimeout(5),
-            Commands.runOnce(m_fuel::stop, m_fuel)
+             m_drive.driveStraight(-0.5,.5),
+            m_drive.driveStraight(0.5,.5),
+             new SpinUp(m_fuel).withTimeout(2),
+            new Launch(m_fuel).withTimeout(5)
+    
             /*
             Commands.print("Auton: Raising Elevator..."),
             new Elevator(m_fuel).withTimeout(2.0), // Timeout added for safety

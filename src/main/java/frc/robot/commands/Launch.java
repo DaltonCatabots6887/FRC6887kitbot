@@ -30,21 +30,44 @@ public class Launch extends Command {
     double feederVolt = SmartDashboard.getNumber("Launching feeder roller value", LAUNCHING_FEEDER_VOLTAGE);
     double rollerVolt = SmartDashboard.getNumber("Launching feeder roller value", LAUNCHING_ROLLERS_VOLTAGE);
 
+    
     // 2. Logic: Only run feeder if launcher is fast enough
     if (currentVelocity >= velLimit) {
       // Launcher stays at high speed, Feeder turns ON
       fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
       fuelSubsystem.setFeederRoller(feederVolt);
+      fuelSubsystem.setRollerRollers(rollerVolt);
     } else {
       // Launcher stays at high speed to keep revving, Feeder stays OFF
       fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
       fuelSubsystem.setFeederRoller(0);
     }
-    
-    // Update the dashboard so Jose can see the status live
-    SmartDashboard.putBoolean("Shooter Ready", currentVelocity >= velLimit);
+      
+      //double RPM_PER_VOLT = 491.0;
+      //double targetVelocity = (launcherVolt * RPM_PER_VOLT) - 40;
+      //double dynamicVelLimit = targetVelocity * 0.90;
+      
+      /* 
+      double dynamicVelLimit = ;
+      if (currentVelocity >= dynamicVelLimit) {
+              fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
+      fuelSubsystem.setFeederRoller(feederVolt);
+      //fuelSubsystem.setRollerRollers(rollerVolt);
+    } else {
+      // Launcher stays at high speed to keep revving, Feeder stays OFF
+      fuelSubsystem.setIntakeLauncherRoller(LAUNCHING_LAUNCHER_VOLTAGE);
+      fuelSubsystem.setFeederRoller(0);
+      }
+      */
+    }
+  /* 
+    SmartDashboard.putBoolean("Shooter Ready", currentVelocity >= dynamicVelLimit);
     SmartDashboard.putNumber("Current Launcher RPM", currentVelocity);
-  }
+
+    // Update the dashboard so Jose can see the status live
+    SmartDashboard.putBoolean("Shooter Ready", currentVelocity >= dynamicVelLimit);
+    SmartDashboard.putNumber("Current Launcher RPM", currentVelocity);*/
+  
 
   @Override
   public void end(boolean interrupted) {

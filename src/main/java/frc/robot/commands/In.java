@@ -26,7 +26,8 @@ public class In extends Command {
   public void initialize() {
     fuelSubsystem
         .setRollerRollers(
-            -1 * SmartDashboard.getNumber("Intaking intake roller value", INTAKING_ROLLERS_VOLTAGE));
+            //-1 * SmartDashboard.getNumber("Intaking intake roller value", INTAKING_ROLLERS_VOLTAGE));
+            SmartDashboard.getNumber("Intaking intake roller value", INTAKING_ROLLERS_VOLTAGE));
     fuelSubsystem
         .setFeederRoller(-1 * SmartDashboard.getNumber("Intaking feeder roller value", INTAKING_FEEDER_VOLTAGE));
   }
